@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Lonely Broadcast Station | Author & Storyteller Hub</title>
+    <meta name="description" content="Official website of the horror author and narrator behind 'Tales from the Lonely Broadcast Station'. Read exclusive stories, buy books, merch, and join the Broadcast Society.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700;800&family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="crt-filter">
+
+    <!-- Atmospheric Background Canvas -->
+    <canvas id="ambient-canvas"></canvas>
+
+    <!-- Top Status / Signal Bar -->
+    <header class="station-header">
+        <div class="header-inner container">
+            <div class="signal-indicator">
+                <span class="pulse-dot"></span>
+                <span class="station-callsign">STATION 94.2 [ON AIR]</span>
+                <span class="time-display" id="station-clock">00:00:00 AM</span>
+            </div>
+            
+            <nav class="nav-links">
+                <a href="#broadcast-player">Radio</a>
+                <a href="#tales">The Tales</a>
+                <a href="#store">Merch & Books</a>
+                <a href="#membership">Society Tiers</a>
+                <a href="#tip-jar">Support</a>
+                <a href="#booking">Narrations</a>
+            </nav>
+
+            <div class="header-actions">
+                <button class="icon-btn" id="crt-toggle" title="Toggle CRT Filter" aria-label="Toggle CRT Screen Scanlines">
+                    <span class="btn-icon">📺</span> <span class="btn-text">CRT</span>
+                </button>
+                <button class="icon-btn cart-btn" id="cart-toggle-btn" title="View Cart">
+                    <span class="btn-icon">🛒</span>
+                    <span class="btn-text">Cart</span>
+                    <span class="cart-badge" id="cart-count">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero / Atmospheric Radio Station Player -->
+    <section class="hero-section" id="broadcast-player">
+        <div class="container hero-grid">
+            <div class="hero-content">
+                <div class="tag-badge">🎙️ OFFICIAL NARRATOR & AUTHOR PORTAL</div>
+                <h1 class="hero-title">Tales from the <br><span class="glow-text">Lonely Broadcast Station</span></h1>
+                <p class="hero-subtitle">
+                    Transmitting strange audio dramas, unreleased creepypasta lore, signed novellas, and atmospheric horror fiction to late-night wanderers worldwide.
+                </p>
+                
+                <div class="hero-cta-group">
+                    <a href="#tales" class="btn btn-primary">📖 Read Free Tales</a>
+                    <a href="#store" class="btn btn-secondary">📦 Get The Books & Tapes</a>
+                    <button class="btn btn-accent" id="open-tip-btn">☕ Support The Host</button>
+                </div>
+
+                <div class="social-proof-strip">
+                    <div class="proof-item">
+                        <span class="proof-num">250K+</span>
+                        <span class="proof-label">YouTube Listeners</span>
+                    </div>
+                    <div class="proof-divider"></div>
+                    <div class="proof-item">
+                        <span class="proof-num">4.9 ★</span>
+                        <span class="proof-label">Audiobook Rating</span>
+                    </div>
+                    <div class="proof-divider"></div>
+                    <div class="proof-item">
+                        <span class="proof-num">18</span>
+                        <span class="proof-label">Published Novellas</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive Vintage Radio Transceiver (Monetization + Engagement Hook) -->
+            <div class="radio-console-wrap">
+                <div class="radio-console">
+                    <div class="console-top-screws">
+                        <span>+</span><span>+</span>
+                    </div>
+                    <div class="console-header">
+                        <div class="analog-meter">
+                            <span class="meter-label">FREQUENCY TUNER (kHz)</span>
+                            <div class="meter-scale">
+                                <div class="meter-needle" id="meter-needle"></div>
+                            </div>
+                        </div>
+                        <div class="vacuum-tube">
+                            <div class="tube-filament" id="tube-glow"></div>
+                        </div>
+                    </div>
+
+                    <!-- Oscilloscope Visualizer -->
+                    <div class="oscilloscope-screen">
+                        <canvas id="audio-visualizer"></canvas>
+                        <div class="track-info">
+                            <span class="freq-tag" id="current-frequency">94.2 MHz</span>
+                            <span class="track-title" id="current-track-title">Tuning in...</span>
+                        </div>
+                    </div>
+
+                    <!-- Station Control Panel -->
+                    <div class="console-controls">
+                        <div class="control-row">
+                            <button class="radio-btn play-btn" id="radio-play-btn" title="Play/Pause Broadcast">
+                                <span id="play-icon">▶</span> <span id="play-text">TUNE IN</span>
+                            </button>
+                            <button class="radio-btn next-btn" id="radio-next-btn" title="Change Frequency">
+                                <span>⏭ SCAN FREQ</span>
+                            </button>
+                            <button class="radio-btn ambient-btn" id="ambient-rain-btn" title="Toggle Rain & Storm Atmosphere">
+                                <span id="rain-icon">🌧️</span> <span>RAIN FX</span>
+                            </button>
+                        </div>
+
+                        <!-- Frequency Dial Slider -->
+                        <div class="dial-container">
+                            <label for="freq-slider">MANUAL DIAL</label>
+                            <input type="range" id="freq-slider" min="88" max="108" step="0.2" value="94.2">
+                        </div>
+
+                        <div class="station-meta-notice">
+                            💡 <em>Tip: Enjoying the broadcast? Unlock full unabridged audiobooks in the store below!</em>
+                        </div>
+                    </div>
+                    <div class="console-bottom-screws">
+                        <span>+</span><span>+</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lead Magnet: Secret Free Chapter for Email Subscription (Monetization Funnel) -->
+    <section class="lead-magnet-bar">
+        <div class="container lead-magnet-inner">
+            <div class="lead-text">
+                <h3>📼 FREE ACCESS: Download "The Midnight Signal: Lost Chapter Zero"</h3>
+                <p>Join 35,000+ night owls on the secret mailing list. Get a free DRM-free audio story & 15% off coupon instantly.</p>
+            </div>
+            <form class="lead-form" id="newsletter-form">
+                <input type="email" id="subscriber-email" placeholder="Enter your email address..." required>
+                <button type="submit" class="btn btn-primary">Send My Free Story</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Featured Stories & Audiobooks Reader -->
+    <section class="section tales-section" id="tales">
+        <div class="container">
+            <div class="section-heading">
+                <span class="section-tag">LOGGED TRANSMISSIONS</span>
+                <h2 class="section-title">Archived Tales & Audio Drama</h2>
+                <p class="section-desc">Browse our collection of dark narratives, forest folklore, paranormal broadcast scripts, and unreleased novels.</p>
+            </div>
+
+            <!-- Filter Controls -->
+            <div class="filter-tabs">
+                <button class="filter-tab active" data-filter="all">All Transmissions</button>
+                <button class="filter-tab" data-filter="free">Free to Read</button>
+                <button class="filter-tab" data-filter="audio">Audio Drama</button>
+                <button class="filter-tab" data-filter="premium">Complete Novellas</button>
+            </div>
+
+            <!-- Tales Grid -->
+            <div class="tales-grid" id="tales-container">
+                <!-- Injected via JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Monetization Hub: The Store (Digital Ebooks, Audiobooks, Physical Merch & Bundles) -->
+    <section class="section store-section" id="store">
+        <div class="container">
+            <div class="section-heading">
+                <span class="section-tag">OFFICIAL STATION COMMISSARY</span>
+                <h2 class="section-title">Books, Merch & Digital Vault</h2>
+                <p class="section-desc">Every purchase directly funds the production of new YouTube broadcasts, voice actors, and book releases. Instant digital downloads included.</p>
+            </div>
+
+            <!-- Category Switcher -->
+            <div class="store-categories">
+                <button class="store-cat-btn active" data-category="all">All Items</button>
+                <button class="store-cat-btn" data-category="ebook">Ebooks (EPUB/PDF)</button>
+                <button class="store-cat-btn" data-category="audio">Audio Dramas (WAV/MP3)</button>
+                <button class="store-cat-btn" data-category="merch">Physical Relics & Merch</button>
+                <button class="store-cat-btn" data-category="bundle">Mega Bundles (-40%)</button>
+            </div>
+
+            <!-- Store Products Grid -->
+            <div class="products-grid" id="products-container">
+                <!-- Injected via JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Subscription & Member Club (Recurring Monthly Income Stream) -->
+    <section class="section membership-section" id="membership">
+        <div class="container">
+            <div class="section-heading text-center">
+                <span class="section-tag">MONTHLY SUBSCRIPTION / PATREON PASS</span>
+                <h2 class="section-title">The Lonely Broadcast Society</h2>
+                <p class="section-desc">Unlock recurring monthly patron perks, uncensored story releases, monthly digital stickers, and your name narrated in every YouTube broadcast credits.</p>
+            </div>
+
+            <div class="membership-grid">
+                <!-- Tier 1 -->
+                <div class="tier-card">
+                    <div class="tier-badge">NIGHT SHIFT</div>
+                    <h3 class="tier-title">Frequency Scout</h3>
+                    <div class="tier-price"><span class="currency">$</span><span class="amount">4</span><span class="period">/month</span></div>
+                    <p class="tier-desc">Perfect for casual listeners who want early story access and clean MP3 downloads.</p>
+                    <ul class="tier-perks">
+                        <li>✓ 72-Hour Early Access to all YouTube Narrations</li>
+                        <li>✓ Ad-free Lossless MP3 Audio Downloads</li>
+                        <li>✓ Access to the Private Discord Broadcast Room</li>
+                        <li>✓ Official "Scout" Digital Membership Card</li>
+                    </ul>
+                    <button class="btn btn-secondary tier-cta" onclick="openMembershipModal('Frequency Scout', 4)">Join Night Shift</button>
+                </div>
+
+                <!-- Tier 2 (Featured) -->
+                <div class="tier-card featured-tier">
+                    <div class="popular-ribbon">MOST POPULAR</div>
+                    <div class="tier-badge">STATION OPERATOR</div>
+                    <h3 class="tier-title">Broadcast Operator</h3>
+                    <div class="tier-price"><span class="currency">$</span><span class="amount">12</span><span class="period">/month</span></div>
+                    <p class="tier-desc">Get every new ebook automatically on release day plus exclusive quarterly physical gifts.</p>
+                    <ul class="tier-perks">
+                        <li>✓ <strong>All Scout Perks Included</strong></li>
+                        <li>✓ <strong>Free copy of every new Ebook / Audiobook</strong></li>
+                        <li>✓ Your name in the video credits as "Station Operator"</li>
+                        <li>✓ Monthly Behind-The-Scenes writing drafts & cut lore</li>
+                        <li>✓ 20% Storewide Merch Discount code</li>
+                    </ul>
+                    <button class="btn btn-primary tier-cta" onclick="openMembershipModal('Broadcast Operator', 12)">Become Operator</button>
+                </div>
+
+                <!-- Tier 3 -->
+                <div class="tier-card">
+                    <div class="tier-badge">INNER CIRCLE</div>
+                    <h3 class="tier-title">Midnight Warden</h3>
+                    <div class="tier-price"><span class="currency">$</span><span class="amount">35</span><span class="period">/month</span></div>
+                    <p class="tier-desc">For true patrons who want a named character in the series & signed physical novellas.</p>
+                    <ul class="tier-perks">
+                        <li>✓ <strong>All Operator Perks Included</strong></li>
+                        <li>✓ Have a character or location named after you in lore</li>
+                        <li>✓ 1 Signed Physical Novella mailed to you per year</li>
+                        <li>✓ 1-on-1 Monthly Video Hangout & Q&A with the Author</li>
+                        <li>✓ Producer Credit on all major Audio Dramas</li>
+                    </ul>
+                    <button class="btn btn-accent tier-cta" onclick="openMembershipModal('Midnight Warden', 35)">Claim Warden Rank</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Support / Tip Jar (Instant Micro-donations / "Buy Me a Coffee" Model) -->
+    <section class="section tip-section" id="tip-jar">
+        <div class="container">
+            <div class="tip-card-box">
+                <div class="tip-content">
+                    <span class="section-tag">STATION COFFEE & EQUIPMENT FUND</span>
+                    <h2>Send a Midnight Transmission Tip</h2>
+                    <p>Keep the radio transmitters buzzing and the coffee pot brewing. Tips of any amount trigger a live audio broadcast chime and appear on the Supporter Wall!</p>
+                    
+                    <div class="tip-buttons-row">
+                        <button class="tip-amt-btn" data-amt="3">$3 (1 Midnight Coffee)</button>
+                        <button class="tip-amt-btn active" data-amt="5">$5 (Cassette Tape Pack)</button>
+                        <button class="tip-amt-btn" data-amt="15">$15 (Vacuum Tube Replacements)</button>
+                        <button class="tip-amt-btn" data-amt="50">$50 (Radio Antenna Booster)</button>
+                    </div>
+
+                    <div class="custom-tip-wrap">
+                        <span class="currency-symbol">$</span>
+                        <input type="number" id="custom-tip-input" value="5" min="1" max="1000" placeholder="Custom amount">
+                        <input type="text" id="tip-name-input" placeholder="Your name or callsign (e.g. NightTraveler99)">
+                    </div>
+
+                    <textarea id="tip-message-input" placeholder="Leave a message or story request for the host (optional)..." rows="2"></textarea>
+
+                    <button class="btn btn-primary tip-submit-btn" id="submit-tip-btn">
+                        <span>⚡ Transmit Tip of </span><strong id="tip-submit-amount">$5.00</strong>
+                    </button>
+                </div>
+
+                <!-- Recent Live Supporter Feed -->
+                <div class="supporter-feed-box">
+                    <div class="feed-header">
+                        <span class="pulse-dot"></span>
+                        <h4>LIVE SIGNAL TRANSMISSIONS</h4>
+                    </div>
+                    <div class="supporter-list" id="supporter-list">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Commercial Story Commission & Voiceover Services Booking -->
+    <section class="section booking-section" id="booking">
+        <div class="container booking-grid">
+            <div class="booking-info">
+                <span class="section-tag">COMMISSIONS & COLLABORATIONS</span>
+                <h2 class="section-title">Hire the Narrator & Author</h2>
+                <p>Need a deep, atmospheric voiceover for your indie game, YouTube horror video, documentary, or commercial? Or want a custom ghost story written for your podcast?</p>
+                
+                <div class="rate-card">
+                    <div class="rate-item">
+                        <div class="rate-title">🎙️ Audio Narration / Voiceover</div>
+                        <div class="rate-desc">Includes professional mastering, eerie ambient background score option, 48kHz WAV.</div>
+                        <div class="rate-cost">Starting at <strong>$75 / 1,000 words</strong></div>
+                    </div>
+                    <div class="rate-item">
+                        <div class="rate-title">✍️ Custom Horror Script & Story</div>
+                        <div class="rate-desc">Original folklore, psychological thriller, or creepypasta tailored to your channel.</div>
+                        <div class="rate-cost">Starting at <strong>$120 / Story</strong></div>
+                    </div>
+                    <div class="rate-item">
+                        <div class="rate-title">📢 YouTube Video Sponsorship</div>
+                        <div class="rate-desc">Integrated 60-second midroll sponsor segment on the 250k+ subscriber channel.</div>
+                        <div class="rate-cost">Starting at <strong>$450 / Episode</strong></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="booking-form-wrap">
+                <div class="form-card">
+                    <h3>Request a Quote / Booking</h3>
+                    <form id="booking-form">
+                        <div class="form-group">
+                            <label>Your Name / Production Studio</label>
+                            <input type="text" id="book-name" placeholder="e.g., Midnight Games Studio" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" id="book-email" placeholder="contact@studio.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Service Needed</label>
+                            <select id="book-service">
+                                <option value="voiceover">Voice Narration / Voiceover</option>
+                                <option value="writing">Custom Story & Script Writing</option>
+                                <option value="sponsorship">YouTube Sponsorship / Promo Slot</option>
+                                <option value="other">Other Collaboration / Licensing</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Project Details & Timeline</label>
+                            <textarea id="book-details" rows="4" placeholder="Briefly describe your project, word count, deadline, or budget..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary full-width">Send Booking Transmission</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Earnings & Monetization Blueprint Explanation Modal for the Webmaster -->
+    <section class="section monetization-explainer-section">
+        <div class="container explainer-box">
+            <div class="explainer-header">
+                <span class="tag-badge">💰 HOW THIS SITE MAKES REAL MONEY</span>
+                <h2>6 Built-in Revenue Streams Ready for You</h2>
+            </div>
+            <div class="explainer-grid">
+                <div class="expl-card">
+                    <div class="expl-num">01</div>
+                    <h4>Digital Ebooks & Audiobooks</h4>
+                    <p>Zero manufacturing or shipping cost. 95%+ profit margins on EPUB, PDF, and WAV audio drama sales via Stripe or PayPal.</p>
+                </div>
+                <div class="expl-card">
+                    <div class="expl-num">02</div>
+                    <h4>Recurring Memberships</h4>
+                    <p>Monthly patron subscriptions ($4 - $35/mo). 100 subscribers at $12/mo = <strong>$1,200/month predictable income</strong>.</p>
+                </div>
+                <div class="expl-card">
+                    <div class="expl-num">03</div>
+                    <h4>Direct Tip Jar & Coffee</h4>
+                    <p>Frictionless micro-donations from loyal YouTube and podcast fans who love your storytelling.</p>
+                </div>
+                <div class="expl-card">
+                    <div class="expl-num">04</div>
+                    <h4>Physical Merch & Cassettes</h4>
+                    <p>Print-on-demand integration (Printify/Printful) allows shipping t-shirts, mugs, and posters with $0 upfront inventory.</p>
+                </div>
+                <div class="expl-card">
+                    <div class="expl-num">05</div>
+                    <h4>Voiceover & Story Services</h4>
+                    <p>High-ticket freelance commissions ($75 - $500+) directly capturing clients and game developers without middleman cuts.</p>
+                </div>
+                <div class="expl-card">
+                    <div class="expl-num">06</div>
+                    <h4>Email Marketing Funnel</h4>
+                    <p>The "Lost Chapter" lead magnet builds a newsletter list to trigger massive launch days for future books & sponsor deals.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="station-footer">
+        <div class="container footer-content">
+            <div class="footer-col">
+                <div class="footer-logo">
+                    <span class="pulse-dot"></span>
+                    <strong>THE LONELY BROADCAST</strong>
+                </div>
+                <p>Broadcasting eerie narratives, analog horror archives, and psychological suspense into the dead of night.</p>
+                <div class="copyright">© 2026 The Lonely Broadcast Station. All stories & audio dramatizations copyrighted.</div>
+            </div>
+            <div class="footer-col">
+                <h5>Navigation</h5>
+                <ul>
+                    <li><a href="#broadcast-player">Interactive Radio</a></li>
+                    <li><a href="#tales">Story Archive</a></li>
+                    <li><a href="#store">Digital & Physical Store</a></li>
+                    <li><a href="#membership">Society Membership</a></li>
+                    <li><a href="#booking">Voiceover Inquiries</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5>Payment & Security</h5>
+                <p>256-Bit SSL Encrypted Mock & Live Checkout Ready. Supports Credit Card, Apple Pay, Google Pay, PayPal & Stripe.</p>
+                <div class="payment-badges">
+                    <span class="badge-item">💳 STRIPE</span>
+                    <span class="badge-item">🅿️ PAYPAL</span>
+                    <span class="badge-item">🍎 APPLE PAY</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ================= MODALS & DRAWERS ================= -->
+
+    <!-- Shopping Cart Drawer -->
+    <div class="cart-drawer-overlay" id="cart-drawer-overlay">
+        <div class="cart-drawer" id="cart-drawer">
+            <div class="cart-drawer-header">
+                <h3>Your Vault Cart (<span id="cart-items-total">0</span>)</h3>
+                <button class="close-btn" id="close-cart-btn" aria-label="Close Cart">&times;</button>
+            </div>
+
+            <div class="cart-drawer-body" id="cart-items-container">
+                <!-- Injected via JS -->
+            </div>
+
+            <div class="cart-drawer-footer">
+                <div class="coupon-row">
+                    <input type="text" id="coupon-input" placeholder="Promo code (Try: BROADCAST10)">
+                    <button class="btn btn-sm btn-secondary" id="apply-coupon-btn">Apply</button>
+                </div>
+                <div class="discount-alert" id="discount-applied-msg"></div>
+
+                <div class="cart-subtotal-row">
+                    <span>Subtotal:</span>
+                    <span id="cart-subtotal">$0.00</span>
+                </div>
+                <div class="cart-subtotal-row" id="cart-discount-row" style="display:none; color: #4ade80;">
+                    <span>Discount:</span>
+                    <span id="cart-discount">-$0.00</span>
+                </div>
+                <div class="cart-total-row">
+                    <span>Total Amount:</span>
+                    <strong id="cart-total">$0.00</strong>
+                </div>
+
+                <button class="btn btn-primary full-width" id="checkout-btn">Proceed to Secure Checkout 🔒</button>
+                <p class="safe-checkout-hint">Instant digital download links delivered immediately after checkout.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interactive Story Reader Modal -->
+    <div class="modal-overlay" id="story-reader-modal">
+        <div class="modal-card reader-card">
+            <div class="reader-header">
+                <div class="reader-title-box">
+                    <span class="reader-tag" id="reader-category">FREE TRANSMISSION</span>
+                    <h3 id="reader-title">Transmission Title</h3>
+                </div>
+                <div class="reader-tools">
+                    <button class="tool-btn" id="font-size-down" title="Decrease Font Size">A-</button>
+                    <button class="tool-btn" id="font-size-up" title="Increase Font Size">A+</button>
+                    <button class="tool-btn" id="ambient-toggle-reader" title="Toggle Eerie Rain">🌧️</button>
+                    <button class="close-btn" id="close-reader-btn">&times;</button>
+                </div>
+            </div>
+            <div class="reader-body" id="reader-content">
+                <!-- Injected via JS -->
+            </div>
+            <div class="reader-footer">
+                <span id="reader-stats">Approx 8 min read • Narrated by Host</span>
+                <button class="btn btn-primary btn-sm" id="reader-buy-full-btn">Get Complete Audio Drama ($7.99)</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Membership Tier Signup Modal -->
+    <div class="modal-overlay" id="membership-modal">
+        <div class="modal-card member-modal-card">
+            <button class="close-btn" id="close-member-modal">&times;</button>
+            <div class="member-modal-content">
+                <span class="tag-badge">TRANSMISSION SOCIETY MEMBERSHIP</span>
+                <h2 id="member-modal-title">Join Frequency Scout</h2>
+                <div class="member-modal-price" id="member-modal-price">$4.00 / month</div>
+                <p>Unlock immediate access to the member vault, uncensored story archives, and early YouTube broadcasts.</p>
+
+                <form id="membership-signup-form">
+                    <div class="form-group">
+                        <label>Your Full Name</label>
+                        <input type="text" id="member-name" placeholder="John Doe" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Your Email Address</label>
+                        <input type="email" id="member-email" placeholder="john@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Payment Method (Simulated / Live Ready)</label>
+                        <div class="mock-card-input">
+                            <input type="text" placeholder="Card Number •••• •••• •••• 4242" value="4242 •••• •••• 4242">
+                            <div class="mock-card-row">
+                                <input type="text" placeholder="MM/YY" value="12/28">
+                                <input type="text" placeholder="CVC" value="987">
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary full-width">Confirm Membership & Unlock Vault</button>
+                </form>
+                <div class="member-guarantee">🛡️ Cancel anytime in 1-click. 30-day money-back guarantee.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Success / Digital Download Delivery Modal -->
+    <div class="modal-overlay" id="order-success-modal">
+        <div class="modal-card success-modal-card">
+            <div class="success-icon">🎉</div>
+            <h2>Transmission Confirmed!</h2>
+            <p>Thank you for supporting the Lonely Broadcast Station. Your payment was successfully processed.</p>
+            
+            <div class="order-receipt-box">
+                <div class="receipt-row">
+                    <span>Order ID:</span>
+                    <strong id="receipt-order-id">#LBS-94821</strong>
+                </div>
+                <div class="receipt-row">
+                    <span>Total Paid:</span>
+                    <strong id="receipt-total">$0.00</strong>
+                </div>
+                <div class="receipt-row">
+                    <span>License Key:</span>
+                    <strong class="receipt-key" id="receipt-key">KEY-XXXX-BROADCAST-2026</strong>
+                </div>
+            </div>
+
+            <div class="download-links-box" id="download-links-container">
+                <!-- Generated download links -->
+            </div>
+
+            <button class="btn btn-primary full-width" id="close-success-btn">Return to Station</button>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- JavaScript Application Logic -->
+    <script src="app.js"></script>
+</body>
+</html>
